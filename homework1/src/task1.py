@@ -1,2 +1,14 @@
 #Task1.py file
-print("Hello World!")
+   
+#Function that returns Hello World
+def HelloWorldFunc():
+    print("Hello World!")
+
+def main():
+
+    HelloWorldFunc()
+
+if __name__ == "main":
+    main()
+
+

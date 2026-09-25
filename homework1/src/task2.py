@@ -1,20 +1,20 @@
 # Task2.py
 
-# Add two integers
+# Add two integers 
 def int_add(n1,n2):
     return n1+n2
 
-#Multiply two floats
-def float_prod(n1,n2):
-    return n1*n2
+#Multiply two floats 
+def float_prod(f1,f2):
+    return f1*f2
 
-# Check if its a string
+#Returns a string 
 def is_string():
-    print("This is a string");
+    return "This is a string"
 
-# Should return false or true based on number comaprison
-def comp_func_(n1,n2):
-    if n1 == n2:
+# Should return false or true based on number comaprison (Shows how Bools Work)
+def comp_func_(c1,c2):
+    if c1 == c2:
         return True
     else:
         return False

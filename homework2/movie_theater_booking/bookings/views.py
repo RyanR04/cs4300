@@ -10,7 +10,6 @@ class MovieViewSet(viewsets.ModelViewSet):
     #Get Serializer for JSON formating
     serializer_class = MovieSerializer
 
-
 class SeatViewSet(viewsets.ModelViewSet):
     #Get all seat instances
     queryset = Seat.objects.all()
@@ -23,16 +22,55 @@ class BookingViewSet(viewsets.ModelViewSet):
     #Get Serializer for JSON formating
     serializer_class = BookingSerializer
 
-
+#Used for Book Seat to get the id for the specifc movie and all seat objects with it
 def book_seat(request,movie_id):
-    #Get ID of instance of movie
+    #Get ID of instance of movie to find the specific one
     movie = Movie.objects.get(id = movie_id)
-    #Get all seats from database
+    #Get all seats from database 
     seats = Seat.objects.all()
 
-    #Sends to html file
-    return render(request,'bookings/seat_booking.html',{'movie':movie,'seats':seats})
+    #Needed AI Assistance on This Section Below
 
+    #Create a list to store all bookings first filter by looking at what movies match what maovie, then from that
+    #specific value i olnly need the seat_id. Flat ture whill just make it not a tuple. This regenerate for each movie
+    #This list regenrates eveythime it called, bascailly recheck booking obejcts each time
+    bookings_list = Booking.objects.filter(movie = movie).values_list('seat_id',flat=True)
+
+    #Check to see if button is clicked the we get POST
+    if request.method == "POST":
+        #Get seatdata from the input line in HTML
+        seat_id = request.POST.get('seat_id')
+        #Go to seat object we get
+        seat = Seat.objects.get(id=seat_id)
+
+        #First check if the booking object exists or is booked, if so then clicking it again cancels it
+        if Booking.objects.filter(movie=movie, seat=seat).exists():
+
+            #Get that specifc booking object
+            booking = Booking.objects.get(movie = movie, seat = seat)
+            #Delete it
+            booking.delete()
+
+            seat.booking_status=False
+
+        else:
+            #Create a new booking object
+            Booking.objects.create(movie = movie, seat = seat,user= request.user)
+
+            seat.booking_status=True
+
+        #Update seat with status
+        seat.save()
+
+    # #Needed AI Assistance on This Section Above
+
+    #Sends to html file
+    return render(request,'bookings/seat_booking.html',{'movie':movie,'seats':seats,'bookings_list':bookings_list})
+
+
+#This returns the list to the html of all movies and the data it has
 def movie_list(request):
+    #Get all Movie Obejcts
     movies = Movie.objects.all()
+    #Return for html movie_list to display
     return render(request, 'bookings/movie_list.html', {'movies': movies})

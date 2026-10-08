@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://app-vividotter6204-28.lab.devedu.io',]
+
 
 # Application definition
 

@@ -4,22 +4,37 @@
 
 {% block content %}
 
-<h2> Book a seat for {{movie.title}} ! </h2>
+<!--Make A Button to Book for More Movies-->
+<a href="{% url 'movie_list' %}" class="btn btn-secondary"> Available Bookings </a>
 
-<h4>Available Seats</h4>
-<div class="row">
-    {% for seat in seats %}
-            <li class="list-group-item"> 
-                Seat Number: {{seat.seat_number}}
+<h2 class="text-center"> Book a seat for {{movie.title}} ! </h2>
+
+
+<h4 class="text-center">Available Seats</h4>
+<!-- Create A contair grid to make buttons on page-->
+<div class=" text-center container">
+    <!-- Start a row  -->
+    <div class="row">
+        {% for seat in seats %}
+            <!-- Start a col that takes up 3 spaces on the container and mb gives space below  -->
+            <!-- Also if seat is booked make button red if open green  -->
+            <div class="col-3 mb-5">
+                <form method="POST">
                 
-                {%if seat.booking_status%}
-                    Booked
-                {%else%}
-                    Open
-                {%endif%}
-            </li>
-    {% endfor %} 
-</ul>
+                    {% csrf_token %}
 
+                    <input type="hidden" name="seat_id" value="{{ seat.id }}">
+
+                    {% if seat.id in bookings_list %}
+                        <button class="btn btn-danger"> Seat {{ seat.seat_number }} </button>
+                    {% else %}
+                        <button class="btn btn-success"> Seat {{ seat.seat_number }} </button>
+                    {% endif %}
+
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

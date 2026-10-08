@@ -11,11 +11,17 @@ class Movie(models.Model):
     release_date = models.DateField()
     duration = models.PositiveIntegerField()
 
+    def __str__(self):
+        return self.title
+
 #Seat: seat number, booking status.
 class Seat(models.Model):
     #All needed attributes for Seat Model
     seat_number = models.PositiveIntegerField()
     booking_status = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"Seat number {self.seat_number}"
 
 #Booking: movie, seat, user, booking date.
 class Booking(models.Model):
@@ -26,4 +32,7 @@ class Booking(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     #Gets the booking time right when instance is created
     booking_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Reserved Seat: {self.seat} for {self.movie}"
 

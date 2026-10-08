@@ -22,6 +22,8 @@ class BookingViewSet(viewsets.ModelViewSet):
     #Get Serializer for JSON formating
     serializer_class = BookingSerializer
 
+
+
 #Used for Book Seat to get the id for the specifc movie and all seat objects with it
 def book_seat(request,movie_id):
     #Get ID of instance of movie to find the specific one
@@ -68,9 +70,16 @@ def book_seat(request,movie_id):
     return render(request,'bookings/seat_booking.html',{'movie':movie,'seats':seats,'bookings_list':bookings_list})
 
 
+
 #This returns the list to the html of all movies and the data it has
 def movie_list(request):
     #Get all Movie Obejcts
     movies = Movie.objects.all()
     #Return for html movie_list to display
     return render(request, 'bookings/movie_list.html', {'movies': movies})
+
+
+#For booking histroy it sends all data for html
+def booking_history(request):
+    bookings = Booking.objects.filter(user=request.user)
+    return render(request,'bookings/booking_history.html',{'bookings':bookings})

@@ -19,4 +19,5 @@ urlpatterns = [
     path('book/<int:movie_id>/',book_seat, name='book_seat'),
     #Now have history/booking history url 
     path('history/',booking_history,name = 'booking_history'),
+    
 ] + router.urls

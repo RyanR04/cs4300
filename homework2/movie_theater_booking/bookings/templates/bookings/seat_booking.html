@@ -26,14 +26,17 @@
                     <!--Get the input from seat_id in a way user can not see-->
                     <input type="hidden" name="seat_id" value="{{ seat.id }}">
                     
-                    <!---IF seat id in the booking list we get make it red since they booked it-->
-                    {% if seat.id in bookings_list %}
+                    <!---IF seat id in the my_bookeseats list we get make it red since we booked it-->
+                     {% if seat.id in my_bookedseats %}
                         <button class="btn btn-danger"> Seat {{ seat.seat_number }} </button>
+                    <!--If not in my_booked seats but in bookings list we make it black-->
+                    {% elif seat.id in bookings_list %}
+                        <button class="btn btn-dark"> Seat {{ seat.seat_number }} </button>
                     <!---Else make it Green since it is open-->
                     {% else %}
                         <button class="btn btn-success"> Seat {{ seat.seat_number }} </button>
                     {% endif %}
-
+       
                 </form>
             </div>
         {% endfor %}

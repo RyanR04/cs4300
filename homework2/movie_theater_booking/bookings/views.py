@@ -37,6 +37,8 @@ def book_seat(request,movie_id):
     #specific value i olnly need the seat_id. Flat ture whill just make it not a tuple. This regenerate for each movie
     #This list regenrates eveythime it called, bascailly recheck booking obejcts each time
     bookings_list = Booking.objects.filter(movie = movie).values_list('seat_id',flat=True)
+    my_bookedseats = Booking.objects.filter(movie = movie,user = request.user).values_list('seat_id',flat=True)
+
 
     #Check to see if button is clicked the we get POST
     if request.method == "POST":
@@ -46,15 +48,21 @@ def book_seat(request,movie_id):
         seat = Seat.objects.get(id=seat_id)
 
         #First check if the booking object exists or is booked, if so then clicking it again cancels it
-        if Booking.objects.filter(movie=movie, seat=seat).exists():
+        if Booking.objects.filter(movie=movie, seat=seat, user = request.user).exists():
 
-            #Get that specifc booking object
-            booking = Booking.objects.get(movie = movie, seat = seat)
-            #Delete it
+            #Get that specifc booking object make sure to check if this user has it 
+            booking = Booking.objects.get(movie = movie, seat = seat, user = request.user)
+            
+            # If so Delete it
             booking.delete()
 
+            #The Bookings Open
             seat.booking_status=False
 
+        #If another user has this then doing nothing
+        elif Booking.objects.filter(movie=movie, seat=seat).exists():
+            pass
+        #If no one has it book it
         else:
             #Create a new booking object
             Booking.objects.create(movie = movie, seat = seat,user= request.user)
@@ -67,7 +75,7 @@ def book_seat(request,movie_id):
     # #Needed AI Assistance on This Section Above
 
     #Sends to html file
-    return render(request,'bookings/seat_booking.html',{'movie':movie,'seats':seats,'bookings_list':bookings_list})
+    return render(request,'bookings/seat_booking.html',{'movie':movie,'seats':seats,'bookings_list':bookings_list,'my_bookedseats':my_bookedseats})
 
 
 

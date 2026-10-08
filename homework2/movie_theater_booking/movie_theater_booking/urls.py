@@ -19,6 +19,8 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #Get API path and link to booking.urls so it can see all three
-    path('api/',include('bookings.urls'))
+    #Get API path and link to booking.urls so it can see all three Movie,Seat,and Booking
+    path('api/',include('bookings.urls')),
+    # This will get the other urls so movie_list,seat_booking,and booking history
+    path('', include('bookings.urls')),
 ]

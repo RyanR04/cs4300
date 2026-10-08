@@ -13,14 +13,12 @@ class Movie(models.Model):
 
 #Seat: seat number, booking status.
 class Seat(models.Model):
-
     #All needed attributes for Seat Model
     seat_number = models.PositiveIntegerField()
     booking_status = models.BooleanField(default=False)
 
 #Booking: movie, seat, user, booking date.
 class Booking(models.Model):
-
     # All needed attributes for Booking Model using foreign keys to relate to clases
     movie = models.ForeignKey(Movie,on_delete=models.CASCADE)
     seat = models.ForeignKey(Seat,on_delete=models.CASCADE)

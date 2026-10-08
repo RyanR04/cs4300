@@ -7,7 +7,7 @@ class MovieSerializer(serializers.ModelSerializer):
     #What meta data to use
     class Meta:
         model = Movie
-        fields = '__all__' # Serializes all fields in the model
+        fields = '__all__' # Serializes all fields in the model 
 
 # SeatSerializer
 class SeatSerializer(serializers.ModelSerializer):

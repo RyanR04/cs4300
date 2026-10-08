@@ -10,15 +10,29 @@ class MovieViewSet(viewsets.ModelViewSet):
     #Get Serializer for JSON formating
     serializer_class = MovieSerializer
 
+
 class SeatViewSet(viewsets.ModelViewSet):
     #Get all seat instances
     queryset = Seat.objects.all()
     #Get Serializer for JSON formating
     serializer_class = SeatSerializer
 
-
 class BookingViewSet(viewsets.ModelViewSet):
     #Get all instance of bookings
     queryset = Booking.objects.all()
     #Get Serializer for JSON formating
     serializer_class = BookingSerializer
+
+
+def book_seat(request,movie_id):
+    #Get ID of instance of movie
+    movie = Movie.objects.get(id = movie_id)
+    #Get all seats from database
+    seats = Seat.objects.all()
+
+    #Sends to html file
+    return render(request,'bookings/seat_booking.html',{'movie':movie,'seats':seats})
+
+def movie_list(request):
+    movies = Movie.objects.all()
+    return render(request, 'bookings/movie_list.html', {'movies': movies})

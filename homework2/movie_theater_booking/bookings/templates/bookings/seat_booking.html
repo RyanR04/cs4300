@@ -1,0 +1,25 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %} Book a Seat {% endblock %}
+
+{% block content %}
+
+<h2> Book a seat for {{movie.title}} ! </h2>
+
+<h4>Available Seats</h4>
+<div class="row">
+    {% for seat in seats %}
+            <li class="list-group-item"> 
+                Seat Number: {{seat.seat_number}}
+                
+                {%if seat.booking_status%}
+                    Booked
+                {%else%}
+                    Open
+                {%endif%}
+            </li>
+    {% endfor %} 
+</ul>
+
+
+{% endblock %}

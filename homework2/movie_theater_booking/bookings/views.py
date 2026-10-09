@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from django.shortcuts import render
 from .models import Movie,Booking,Seat
 from .serializers import MovieSerializer,BookingSerializer,SeatSerializer
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class MovieViewSet(viewsets.ModelViewSet):
@@ -23,7 +24,7 @@ class BookingViewSet(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
 
 
-
+@login_required
 #Used for Book Seat to get the id for the specifc movie and all seat objects with it
 def book_seat(request,movie_id):
     #Get ID of instance of movie to find the specific one
@@ -86,7 +87,7 @@ def movie_list(request):
     #Return for html movie_list to display
     return render(request, 'bookings/movie_list.html', {'movies': movies})
 
-
+@login_required
 #For booking histroy it sends all data for html
 def booking_history(request):
     bookings = Booking.objects.filter(user=request.user)

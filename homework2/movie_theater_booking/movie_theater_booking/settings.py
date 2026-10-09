@@ -133,3 +133,6 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+#Making LOGIN_URL so if not loged in it asks for admin login first before booking (Simulates an acutal login prompt)
+LOGIN_URL = '/admin/login/'

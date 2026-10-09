@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     #Added bookings and rest_framework to installed apps
     'rest_framework',
     'bookings',
+    "behave_django",
 
 ]
 

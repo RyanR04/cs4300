@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase,Client
 from .models import Movie,Seat,Booking
 from rest_framework.test import APITestCase
 from rest_framework import status
@@ -114,7 +114,19 @@ class BookingsAPITesting(TestCase):
         self.assertEqual(response.data[0]['user'],user.id)
 
 
-#BDD Testing with Behave
+class TestBookingBehavior(TestCase):
+    def test_booking_creates_record(self):
+        self.client = Client()
+        #Create a Movie
+        movie = Movie.objects.create(title="Inception",description="Sciecne Fiction",release_date="2010-07-16",duration=148)
+        #Create the seat
+        seat = Seat.objects.create(seat_number=1,booking_status=False)
 
+        #User object from the import of django
+        user = User.objects.create_user(username='test_user',password='test_password')
+        self.client.force_login(user)
 
+        response = self.client.post( f'/api/book/{movie.id}/',{'seat_id':seat.id})
 
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Booking.objects.count(), 1)

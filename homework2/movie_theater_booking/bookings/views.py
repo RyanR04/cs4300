@@ -23,7 +23,7 @@ class BookingViewSet(viewsets.ModelViewSet):
     #Get Serializer for JSON formating
     serializer_class = BookingSerializer
 
-
+#If not login via admin panel not acccess to Booking A Seat (Simulates having an account)
 @login_required
 #Used for Book Seat to get the id for the specifc movie and all seat objects with it
 def book_seat(request,movie_id):
@@ -32,20 +32,18 @@ def book_seat(request,movie_id):
     #Get all seats from database 
     seats = Seat.objects.all()
 
-    #Needed AI Assistance on This Section Below
-
-    #Create a list to store all bookings first filter by looking at what movies match what maovie, then from that
-    #specific value i olnly need the seat_id. Flat ture whill just make it not a tuple. This regenerate for each movie
-    #This list regenrates eveythime it called, bascailly recheck booking obejcts each time
+    #Needed AI Assistance to brainstorm and implement the Section Below
+    #Create a list to store all bookings first filter by looking at what movies match what booking, then from that
+    #specific value i only need the seat_id. (AI HELP PART)Flat true will just make it a single value and not a tuple
+    #This regenerate for each movie. The list makes it so all bookings on all accounts are independent. As the lists are unique to them.
     bookings_list = Booking.objects.filter(movie = movie).values_list('seat_id',flat=True)
     my_bookedseats = Booking.objects.filter(movie = movie,user = request.user).values_list('seat_id',flat=True)
-
 
     #Check to see if button is clicked the we get POST
     if request.method == "POST":
         #Get seatdata from the input line in HTML
         seat_id = request.POST.get('seat_id')
-        #Go to seat object we get
+        #Go get specific seat object we need
         seat = Seat.objects.get(id=seat_id)
 
         #First check if the booking object exists or is booked, if so then clicking it again cancels it
@@ -67,13 +65,12 @@ def book_seat(request,movie_id):
         else:
             #Create a new booking object
             Booking.objects.create(movie = movie, seat = seat,user= request.user)
-
+            
+            #Chnage the booking status
             seat.booking_status=True
 
-        #Update seat with status
+        #Update seat withnew status
         seat.save()
-
-    # #Needed AI Assistance on This Section Above
 
     #Sends to html file
     return render(request,'bookings/seat_booking.html',{'movie':movie,'seats':seats,'bookings_list':bookings_list,'my_bookedseats':my_bookedseats})
@@ -87,8 +84,11 @@ def movie_list(request):
     #Return for html movie_list to display
     return render(request, 'bookings/movie_list.html', {'movies': movies})
 
+#If not login via admin panel not acccess to Booking History (Simulates having an account)
 @login_required
 #For booking histroy it sends all data for html
 def booking_history(request):
+    #Filter bookings by user
     bookings = Booking.objects.filter(user=request.user)
+    #Return the info to display
     return render(request,'bookings/booking_history.html',{'bookings':bookings})

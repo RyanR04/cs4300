@@ -3,11 +3,12 @@
 {% block title %}Movie List{% endblock %}
 
 {% block content %}
-
+<!--Link for Booking History-->
 <a href="{% url 'booking_history' %}" class="btn btn-secondary"> Booking History </a>
 
 <h2>Available Movies</h2>
 <ul class="list-group">
+    <!--As we loop through the movies we rendered get needed info about them and list them-->
     {% for movie in movies %}
         <li class="list-group-item">
             <h5>{{ movie.title }}</h5>
@@ -15,7 +16,7 @@
                 Released: {{movie.release_date}}<br>
                 {{movie.duration}} minutes
             </p>
-        
+            <!--At the end add a booking button for each movie-->
             <a href="{% url 'book_seat' movie.id %}" class="btn btn-primary"> Book Now </a>
         </li>
     {% endfor %}

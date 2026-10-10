@@ -12,6 +12,7 @@ class Movie(models.Model):
     release_date = models.DateField()
     duration = models.PositiveIntegerField()
 
+    #How admin panel and rest of program will see this data 
     def __str__(self):
         return self.title
 
@@ -21,6 +22,7 @@ class Seat(models.Model):
     seat_number = models.PositiveIntegerField()
     booking_status = models.BooleanField(default=False)
     
+    #How admin panel and rest of program will see this data 
     def __str__(self):
         return f"Seat number {self.seat_number}"
 
@@ -34,6 +36,7 @@ class Booking(models.Model):
     #Gets the booking time right when instance is created
     booking_date = models.DateTimeField(auto_now_add=True)
 
+    #How admin panel and rest of program will see this data 
     def __str__(self):
         return f"Reserved Seat: {self.seat} for {self.movie}"
 

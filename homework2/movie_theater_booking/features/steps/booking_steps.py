@@ -30,10 +30,12 @@ def step_MovieandSeatBooking_exists(context):
 
 @when ('the user opens the booking history page')
 def get_Booking_API(context):
+    #Check to see if we can get to the page
     context.response = context.client.get(f'/api/history/')
 
 @then ('the booking will appear')
 def see_what_Bookings_are_Booked(context):
+    #If soo then we get 200 status
     assert context.response.status_code == 200
     #Check to see if movie title is there
     assert b'Inception' in context.response.content

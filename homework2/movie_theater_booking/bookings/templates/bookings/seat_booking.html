@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<!--Make A Button to Book for More Movies-->
+<!--Make a button to Book Movies and for seeing Booking History -->
 <a href="{% url 'movie_list' %}" class="btn btn-secondary"> Book More! </a>
 <a href="{% url 'booking_history' %}" class="btn btn-secondary"> Booking History </a>
 
@@ -12,25 +12,30 @@
 <h2 class="text-center"> Book a seat for {{movie.title}} ! </h2>
 
 
+
 <h4 class="text-center">Available Seats</h4>
-<!-- Create A container grid to make buttons on page-->
+<h4 class="text-center">If a seat is green its open, if red its yours, to cancle click on your seat again</h4>
+<h4 class="text-center">If black the seat is reserved for somone else</h4>
+<!-- Create A container grid to make buttons on the page-->
 <div class=" text-center container">
     <!-- Start a row  -->
     <div class="row">
         {% for seat in seats %}
-            <!-- Start a col that takes up 3 spaces on the container and mb gives space below  -->
-            <!-- Also if seat is booked make button red if open green  -->
+            <!-- Start a col that takes up 3 spaces giving space for 5 buttons per row
+                 on the container and mb gives space below each button. 
+                 If seat is booked by you make button red if open green,black for others -->
             <div class="col-3 mb-5">
+                <!--FOLOWING 2 LINES REQUIRED AI USE-->
                 <!---Used to check for POST which is a command triggered by click needed AI help to understand syntax and csrf_token-->
                 <form method="POST">
                     {% csrf_token %}
                     <!--Get the input from seat_id in a way user can not see-->
                     <input type="hidden" name="seat_id" value="{{ seat.id }}">
                     
-                    <!---IF seat id in the my_bookeseats list we get make it red since we booked it-->
+                    <!---IF seat id in the my_bookeseats list we render make it red since current user booked it-->
                      {% if seat.id in my_bookedseats %}
                         <button class="btn btn-danger"> Seat {{ seat.seat_number }} </button>
-                    <!--If not in my_booked seats but in bookings list we make it black-->
+                    <!--If not in my_booked seats but in bookings list we make it black another user owns it-->
                     {% elif seat.id in bookings_list %}
                         <button class="btn btn-dark"> Seat {{ seat.seat_number }} </button>
                     <!---Else make it Green since it is open-->

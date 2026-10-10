@@ -9,7 +9,7 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = '__all__' # Serializes all fields in the model 
 
-# SeatSerializer
+# SeatSerializer 
 class SeatSerializer(serializers.ModelSerializer):
      class Meta:
         model = Seat

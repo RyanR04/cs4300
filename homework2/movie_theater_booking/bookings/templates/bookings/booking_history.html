@@ -3,11 +3,13 @@
 {% block title %}Your Bookings{% endblock %}
 
 {% block content %}
+<!-Link  to go back to see what is available-->
 <a href="{% url 'movie_list' %}" class="btn btn-secondary"> Book More! </a>
 
-
+<!--How we Display Upcoming Bookings-->
 <h2>Upcoming Bookings</h2>
     <ul class="list-group">
+        <!--Based on the bookings we get from render loop through and display their info in a list-->
         {% for booking in bookings %}
             <li class="list-group-item">
                 <h5>Your Booking For:{{booking.movie}} </h5>

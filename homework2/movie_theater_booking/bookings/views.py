@@ -30,8 +30,8 @@ def book_seat(request,movie_id):
     #Get ID of instance of movie to find the specific one
     movie = Movie.objects.get(id = movie_id)
     #Get all seats from database 
-    seats = Seat.objects.all()
-
+    seats = Seat.objects.all().order_by('seat_number')
+    
     #Needed AI Assistance to brainstorm and implement the Section Below
     #Create a list to store all bookings first filter by looking at what movies match what booking, then from that
     #specific value i only need the seat_id. (AI HELP PART)Flat true will just make it a single value and not a tuple

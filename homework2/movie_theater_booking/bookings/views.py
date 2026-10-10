@@ -13,7 +13,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 
 class SeatViewSet(viewsets.ModelViewSet):
     #Get all seat instances
-    queryset = Seat.objects.all()
+    queryset = Seat.objects.all().order_by('seat.number')
     #Get Serializer for JSON formating
     serializer_class = SeatSerializer
 
